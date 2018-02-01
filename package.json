@@ -4,13 +4,27 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "babel-node": "babel-node --presets=latest",
+    "start:watch": "nodemon --exec npm run babel-node -- ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "chalk": "^2.3.0",
+    "console.table": "^0.10.0",
     "noble": "git://github.com/jacobrosenthal/noble.git#highsierra",
     "rxjs": "^5.5.6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-latest": "^6.24.1",
+    "nodemon": "^1.14.11"
+  },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
   }
 }
