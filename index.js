@@ -41,23 +41,25 @@ const nobleStateChage$ = new Rx.Observable((observer) => {
     observer.next(state);
   });
 });
+exports.nobleStateChage$ = nobleStateChage$;
 const poweredOn$ = nobleStateChage$.filter(state => state === 'poweredOn')
   .do(() => {
     console.log('POWERED ON, START SCANNING')
     noble.startScanning();
   });
-
+exports.poweredOn$ = poweredOn$;
 const poweredOff$ = nobleStateChage$.filter(state => state !== 'poweredOn')
   .do(() => {
     console.log('POWERED OFF, STOP SCANNING')
     noble.stopScanning();
   });
-
+exports.poweredOff$ = poweredOff$;
 const discover$ = new Rx.Observable((observer) => {
   noble.on('discover', (peripheral) => {
     observer.next(peripheral);
   });
 });
+exports.discover$ = discover$;
 const disconnect$ = new Rx.Observable((observer) => {
   noble.on('disconnect', () => {
     observer.next();
@@ -67,6 +69,7 @@ const disconnect$ = new Rx.Observable((observer) => {
     console.log('DISCONNECT, STOP SCANNING!');
     noble.stopScanning();
   })
+exports.disconnect$ = disconnect$;
 
 const discoverWithLocalName$ = (stopScanningLocalName = '') => {
   return discover$.filter(peripheral => {
