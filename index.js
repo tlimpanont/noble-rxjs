@@ -1,9 +1,40 @@
-const Promise = require('bluebird');
 const Rx = require('rxjs/Rx');
 const noble = require('noble');
-const bleno = require('bleno');
 const chalk = require('chalk');
 
+process.stdin.resume();
+// Catch exit
+const processExit$ = new Rx.Observable(observer => {
+  process.on('exit', code => {
+    observer.next(code);
+  });
+}).do(() => console.log('onExit'));
+
+const processSIGINT$ = new Rx.Observable(observer => {
+  // Catch CTRL+C
+  process.on('SIGINT', () => {
+    observer.next();
+  });
+}).do(() => console.log('CTRL+C'));
+
+const processUncaughtException$ = new Rx.Observable(observer => {
+  // Catch uncaught exception
+  process.on('uncaughtException', err => {
+    if (err) {
+      console.dir(err, {depth: null});
+      observer.error(err);
+    }
+    observer.next();
+  });
+}).do(() => console.log('uncaughtException'));
+
+const appTermination$ = Rx.Observable.merge(
+  processExit$, processUncaughtException$, processSIGINT$
+).do(() => {
+  console.log(chalk.red('terminate app and stop scanning!'));
+  noble.stopScanning();
+  process.exit();
+});
 
 const nobleStateChage$ = new Rx.Observable((observer) => {
   noble.on('stateChange', (state) => {
@@ -57,6 +88,8 @@ const discoverWithLocalName$ = (stopScanningLocalName = '') => {
     });
 };
 
+appTermination$.subscribe();
+
 const discoverPeripheralServices$ = (stopScanningLocalName = '', serviceUUIDs = []) => {
   return poweredOn$
     .merge(poweredOff$, disconnect$)
@@ -84,11 +117,9 @@ const discoverPeripheralServices$ = (stopScanningLocalName = '', serviceUUIDs = 
     });
 }
 
-const discoverPeripheralServices = function (
-  stopScanningLocalName = 'Theuy B.V',
-  serviceUUIDs = [],
-  characteristicUUIDs = []
-) {
+const discoverPeripheralServices = function (stopScanningLocalName = 'Theuy B.V',
+                                             serviceUUIDs = [],
+                                             characteristicUUIDs = []) {
 
   const services$ = discoverPeripheralServices$(stopScanningLocalName, serviceUUIDs);
 

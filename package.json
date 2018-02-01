@@ -9,8 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bleno": "^0.5.0",
-    "bluebird": "^3.5.1",
     "chalk": "^2.3.0",
     "noble": "git://github.com/jacobrosenthal/noble.git#highsierra",
     "rxjs": "^5.5.6"
