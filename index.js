@@ -28,13 +28,16 @@ const processUncaughtException$ = new Rx.Observable(observer => {
   });
 }).do(() => console.log('uncaughtException'));
 
-const appTermination$ = Rx.Observable.merge(
-  processExit$, processUncaughtException$, processSIGINT$
-).do(() => {
-  console.log(chalk.red('terminate app and stop scanning!'));
-  noble.stopScanning();
-  process.exit();
-});
+const teminated$ = (peripheral) => {
+  return Rx.Observable.merge(
+    processExit$, processUncaughtException$, processSIGINT$
+  ).do(() => {
+    console.log(chalk.red('terminate app and stop scanning!'));
+    noble.stopScanning();
+    peripheral.disconnect();
+    process.exit();
+  });
+}
 
 const nobleStateChage$ = new Rx.Observable((observer) => {
   noble.on('stateChange', (state) => {
@@ -91,13 +94,13 @@ const discoverWithLocalName$ = (stopScanningLocalName = '') => {
     });
 };
 
-appTermination$.subscribe();
 
 const discoverPeripheralServices$ = (stopScanningLocalName = '', serviceUUIDs = []) => {
   return poweredOn$
     .merge(poweredOff$, disconnect$)
     .combineLatest(discoverWithLocalName$(stopScanningLocalName))
     .mergeMap(([state, peripheral]) => {
+      teminated$(peripheral).subscribe();
       const connect$ = new Rx.Observable((observer) => {
         peripheral.connect(function (err) {
           if (err) {
