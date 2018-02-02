@@ -8,10 +8,10 @@ export const CHARACTERISTICS = {
 };
 
 export class Characteristic {
-  constructor(peripheral, instance) {
+  constructor(peripheral, nobleCharacteristic) {
     this.peripheral = peripheral;
-    this.instance = instance;
-    instance.read(this.read.bind(this));
+    this.nobleCharacteristic = nobleCharacteristic;
+    this.nobleCharacteristic.read(this.read.bind(this));
   }
 
   /**
@@ -21,9 +21,10 @@ export class Characteristic {
    */
   read(err, data) {
     if (data) {
-      switch (this.instance.uuid) {
+      console.log('Characteristic:', data.toString('hex'));
+      switch (this.nobleCharacteristic.uuid) {
         case CHARACTERISTICS.TEMPERATURE_MEASUREMENT:
-          // implement
+          // implement write
           break;
         default:
           return

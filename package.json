@@ -6,6 +6,7 @@
   "scripts": {
     "babel-node": "babel-node --presets=latest",
     "start:watch": "nodemon --exec npm run babel-node -- ./index.js",
+    "start": "npm run babel-node -- ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

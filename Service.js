@@ -7,7 +7,8 @@ export const SERVICES = {
   LED_SERVICE: 'a300',
 };
 export class Service {
-  constructor(peripheral, instance) {
-
+  constructor(peripheral, nobleService) {
+    this.peripheral = peripheral;
+    this.nobleService = nobleService;
   }
 }
