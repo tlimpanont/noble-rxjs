@@ -41,7 +41,7 @@ export class Characteristic {
             if (err) {
               console.log(err);
             } else {
-              console.log('write successful');
+              console.log('write LED VALUE successful');
             }
           });
           break;

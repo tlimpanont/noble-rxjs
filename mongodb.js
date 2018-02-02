@@ -25,7 +25,7 @@ export const addDocument = (data) => {
         // Get the documents collection
         const collection = db.collection('temperatures');
         // Insert some documents
-        collection.insertOne(data, function (err, result) {
+        collection.insertOne(Object.assign(data, {timestamp: new Date()}), function (err, result) {
           if (err) {
             reject(err);
             console.log(JSON.stringify(err, null, 4));
