@@ -112,7 +112,7 @@ export class TheuyBLEScanner {
         }
         appTermination$(peripheral).subscribe();
       })
-      .filter(peripheral => peripheral.advertisement.localName === this.options.localName)
+      .filter(peripheral => String(peripheral.advertisement.localName).indexOf(this.options.localName) !== -1 )
       .do((peripheral) => {
         console.log(chalk.green('DISCOVERED: ' + peripheral.advertisement.localName + ', STOP SCANNING'));
         noble.stopScanning();
