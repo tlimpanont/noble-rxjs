@@ -22,5 +22,5 @@ export const theuyBVmbedBLEOptions = {
   localName: 'Theuy BV',
   serviceUUIDs: Object.values(SERVICES),
   characteristicUUIDs: Object.values(CHARACTERISTICS),
-  reconnectionTimeout: 2000
+  reconnectionTimeout: 5000
 };
