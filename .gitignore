@@ -2,3 +2,4 @@ node_modules
 .idea
 .log
 .AppleDouble
+mongolab.txt

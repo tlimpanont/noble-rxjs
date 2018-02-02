@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mongodb": "^3.0.2",
     "noble": "git://github.com/jacobrosenthal/noble.git#highsierra",
     "rxjs": "^5.5.6"
   },
