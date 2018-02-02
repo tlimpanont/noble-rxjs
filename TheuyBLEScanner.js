@@ -107,7 +107,9 @@ export class TheuyBLEScanner {
     /** CONNECTION AND DISCOVER STREAM */
     discover$
       .do((peripheral) => {
-        console.log(chalk.green(peripheral.advertisement.localName));
+        if (peripheral.advertisement.localName) {
+          console.log(chalk.green(peripheral.advertisement.localName));
+        }
         appTermination$(peripheral).subscribe();
       })
       .filter(peripheral => peripheral.advertisement.localName === this.options.localName)
@@ -135,7 +137,7 @@ export class TheuyBLEScanner {
 
         /** DISCONNECTION AND RE-CONNECTION **/
         peripheral.once('disconnect', () => {
-          console.log('************************************disconnect, startScanning again************************************');
+          console.log(chalk.yellowBright('disconnect, startScanning again'));
           noble.startScanning();
         });
         setTimeout(() => {

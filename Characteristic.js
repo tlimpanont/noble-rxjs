@@ -21,11 +21,23 @@ export class Characteristic {
    */
   read(err, data) {
     if (data) {
-      console.log('Characteristic:', data.toString('hex'));
+      console.log('Characteristic value:', data.toString('hex'));
       switch (this.nobleCharacteristic.uuid) {
         case CHARACTERISTICS.TEMPERATURE_MEASUREMENT:
-          // implement write
+          //implement data value storage
           break;
+        case CHARACTERISTICS.LED_STATE:
+          let currentLedValue = Number('0x' + data.toString('hex'));
+          let writeLedValue = new Buffer(1);
+          writeLedValue[0] = !currentLedValue;
+          this.nobleCharacteristic.write(writeLedValue, false, (err) => {
+            if (err) {
+              console.log(err);
+            }
+            else {
+              console.log('write successful');
+            }
+          });
         default:
           return
       }

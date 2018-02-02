@@ -21,5 +21,5 @@ const CHARACTERISTICS = {
 };
 
 ```
-Use `Characteristic.js` to do nobleCharacteristic.read((err, data)) implementation. Check `read(err, data)
+Use `Characteristic.js` to do nobleCharacteristic.read((err, data)) implementation. Check `read(err, data)`
 method
