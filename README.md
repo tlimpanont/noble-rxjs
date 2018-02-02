@@ -1,5 +1,5 @@
 # noble rxjs stream based implementation
-**working with Jack Berkhout:wq**
+**working with Jack Berkhout**
 
 ```javascript
 // development mode
