@@ -11,8 +11,29 @@ export const dbClientConnect = () => {
   return new Promise((resolve, reject) => {
     MongoClient.connect(url, (err, client) => {
       if (err) reject(err)
+      const db = client.db(dbName);
       console.log("Connected successfully to server");
-      resolve({db: client.db(dbName), client: client});
+      resolve({db: db, client: client});
     });
   })
 };
+
+export const addDocument = (data) => {
+  if (process.env.DB_NAME && process.env.CONNECTION_URL) {
+    return new Promise((resolve, reject) => {
+      dbClientConnect().then(({db, client}) => {
+        // Get the documents collection
+        const collection = db.collection('temperatures');
+        // Insert some documents
+        collection.insertOne(data, function (err, result) {
+          if (err) {
+            reject(err);
+            console.log(JSON.stringify(err, null, 4));
+          }
+          client.close();
+          resolve(result);
+        });
+      });
+    });
+  }
+}

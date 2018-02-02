@@ -1,4 +1,4 @@
-import {dbClientConnect} from "./mongodb";
+import {addDocument} from "./mongodb";
 
 export const CHARACTERISTICS = {
   HEART_RATE_MEASUREMENT: '2a37',
@@ -28,16 +28,10 @@ export class Characteristic {
         case CHARACTERISTICS.TEMPERATURE_MEASUREMENT:
           var val = data.readUInt32LE(0) / 25600.0;
           console.log('TEMPERATURE_MEASUREMENT: ' + val + '\n');
-          dbClientConnect().then(({db, client}) => {
-            // Get the documents collection
-            const collection = db.collection('temperatures');
-            // Insert some documents
-            collection.insertOne({temp: val}, function (err, result) {
-              if (err) console.log(err);
-              console.log(JSON.stringify(result, null, 4));
-              client.close();
-            });
-          });
+          if (process.env.DB_NAME && process.env.CONNECTION_URL) {
+            addDocument({temp: val})
+              .then((result) => console.log(JSON.stringify(result, null, 4)))
+          }
           break;
         case CHARACTERISTICS.LED_STATE:
           let currentLedValue = Number('0x' + data.toString('hex'));
