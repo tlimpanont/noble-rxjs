@@ -1,4 +1,6 @@
 import {addDocument} from "./mongodb";
+const chalk = require('chalk');
+const color_log_value = chalk.whiteBright.bgBlue.bold;
 
 export const CHARACTERISTICS = {
   HEART_RATE_MEASUREMENT: '2a37',
@@ -27,9 +29,17 @@ export class Characteristic {
       switch (this.nobleCharacteristic.uuid) {
         case CHARACTERISTICS.TEMPERATURE_MEASUREMENT:
           var val = data.readUInt32LE(0) / 25600.0;
-          console.log('TEMPERATURE_MEASUREMENT: ' + val + '\n');
+          console.log(color_log_value('TEMPERATURE_MEASUREMENT: ' + val));
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
             addDocument('temperatures', {temp: val})
+              .then((result) => console.log(JSON.stringify(result, null, 4)))
+          }
+          break;
+        case CHARACTERISTICS.SOUND_LEVEL:
+          var val = data.readUInt32LE(0) / 25600.0;
+          console.log(color_log_value('SOUND_LEVEL: ' + val));
+          if (process.env.DB_NAME && process.env.CONNECTION_URL) {
+            addDocument('sounds', {sound: val})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
