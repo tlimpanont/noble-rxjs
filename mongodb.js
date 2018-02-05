@@ -1,5 +1,5 @@
 const MongoClient = require('mongodb').MongoClient;
-
+const chalk = require('chalk');
 // Database Name
 const dbName = process.env.DB_NAME;
 
@@ -10,10 +10,14 @@ const url = process.env.CONNECTION_URL;
 export const dbClientConnect = () => {
   return new Promise((resolve, reject) => {
     MongoClient.connect(url, (err, client) => {
-      if (err) reject(err)
-      const db = client.db(dbName);
-      console.log("Connected successfully to server");
-      resolve({db: db, client: client});
+      if (err) {
+        reject(err);
+        console.error(chalk.red(JSON.stringify(err, null, 4)));
+      } else {
+        const db = client.db(dbName);
+        console.log("Connected successfully to server");
+        resolve({db: db, client: client});
+      }
     });
   })
 };
@@ -28,7 +32,7 @@ export const addDocument = (collectionName, data) => {
         collection.insertOne(Object.assign(data, {timestamp: new Date()}), function (err, result) {
           if (err) {
             reject(err);
-            console.log(JSON.stringify(err, null, 4));
+            console.error(chalk.red(JSON.stringify(err, null, 4)));
           }
           client.close();
           resolve(result);
