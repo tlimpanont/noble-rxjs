@@ -18,12 +18,12 @@ export const dbClientConnect = () => {
   })
 };
 
-export const addDocument = (data) => {
+export const addDocument = (collectionName, data) => {
   if (process.env.DB_NAME && process.env.CONNECTION_URL) {
     return new Promise((resolve, reject) => {
       dbClientConnect().then(({db, client}) => {
         // Get the documents collection
-        const collection = db.collection('temperatures');
+        const collection = db.collection(collectionName);
         // Insert some documents
         collection.insertOne(Object.assign(data, {timestamp: new Date()}), function (err, result) {
           if (err) {

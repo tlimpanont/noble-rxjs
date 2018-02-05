@@ -29,7 +29,7 @@ export class Characteristic {
           var val = data.readUInt32LE(0) / 25600.0;
           console.log('TEMPERATURE_MEASUREMENT: ' + val + '\n');
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
-            addDocument({temp: val})
+            addDocument('temperatures', {temp: val})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
