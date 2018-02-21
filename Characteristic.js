@@ -7,6 +7,7 @@ export const CHARACTERISTICS = {
   TEMPERATURE_MEASUREMENT: '2a1c',
   BATTERY_LEVEL: '2a19',
   SOUND_LEVEL: 'a101',
+  CURRENT_VALUE: 'a401',
   BUTTON_STATE: 'a201',
   LED_STATE: 'a301',
 };
@@ -38,6 +39,14 @@ export class Characteristic {
         case CHARACTERISTICS.SOUND_LEVEL:
           var val = data.readUInt32LE(0) / 25600.0;
           console.log(color_log_value('SOUND_LEVEL: ' + val));
+          if (process.env.DB_NAME && process.env.CONNECTION_URL) {
+            addDocument('sounds', {sound: val})
+              .then((result) => console.log(JSON.stringify(result, null, 4)))
+          }
+          break;
+        case CHARACTERISTICS.CURRENT_VALUE:
+          var val = data.readUInt32LE(0) / 25600.0;
+          console.log(color_log_value('CURRENT_VALUE: ' + val));
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
             addDocument('sounds', {sound: val})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
