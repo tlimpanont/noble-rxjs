@@ -16,6 +16,7 @@ const CHARACTERISTICS = {
  TEMPERATURE_MEASUREMENT: '2a1c',
  BATTERY_LEVEL: '2a19',
  SOUND_LEVEL: 'a101',
+ CURRENT_VALUE: 'a401',
  BUTTON_STATE: 'a201',
  LED_STATE: 'a301',
  ...
@@ -24,3 +25,5 @@ const CHARACTERISTICS = {
 ```
 Use `Characteristic.js` to do nobleCharacteristic.read((err, data)) implementation. Check `read(err, data)`
 method
+
+#end readme
