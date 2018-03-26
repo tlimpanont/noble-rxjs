@@ -1,0 +1,41 @@
+disconnect, startScanning again
+Theuy BV
+DISCOVERED: Theuy BV, STOP SCANNING
+serviceUuid 1801
+serviceUuid 1800
+serviceUuid 1809
+serviceUuid 180d
+serviceUuid 180f
+serviceUuid a100
+serviceUuid a200
+serviceUuid a300
+characteristicUuid 2a1c
+characteristicUuid 2a1d
+characteristicUuid 2a37
+characteristicUuid 2a38
+characteristicUuid 2a39
+characteristicUuid a101
+characteristicUuid a102
+Characteristic value: 009e0700fe
+TEMPERATURE_MEASUREMENT: 19.5
+
+Characteristic value: 0044
+characteristicUuid 2a19
+Characteristic value: 007a0000fe
+Connected successfully to server
+characteristicUuid a201
+{
+    "n": 1,
+    "opTime": {
+        "ts": "6518932783849537537",
+        "t": 1
+    },
+    "electionId": "7fffffff0000000000000001",
+    "ok": 1
+}
+characteristicUuid a301
+Characteristic value: 3a
+Characteristic value: 00
+Characteristic value: 01
+write LED VALUE successful
+
