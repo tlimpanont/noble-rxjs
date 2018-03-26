@@ -48,7 +48,15 @@ export class Characteristic {
           var val = data.readUInt32LE(0) / 25600.0;
           console.log(color_log_value('CURRENT_VALUE: ' + val));
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
-            addDocument('sounds', {sound: val})
+            addDocument('currents', {current: val})
+              .then((result) => console.log(JSON.stringify(result, null, 4)))
+          }
+          break;
+        case CHARACTERISTICS.BUTTON_STATE:
+          var val = parseInt('0x' + data.toString('hex'));
+          console.log(color_log_value('BUTTON_STATE: ' + val));
+          if (process.env.DB_NAME && process.env.CONNECTION_URL) {
+            addDocument('buttons', {button: val})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
