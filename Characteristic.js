@@ -44,6 +44,14 @@ export class Characteristic {
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
+        case CHARACTERISTICS.BATTERY_LEVEL:
+          var val = Number('0x' + data.toString('hex'));
+          console.log(color_log_value('BATTERY_LEVEL: ' + val));
+          if (process.env.DB_NAME && process.env.CONNECTION_URL) {
+            addDocument('batteries', {battery: val})
+              .then((result) => console.log(JSON.stringify(result, null, 4)))
+          }
+          break;
         case CHARACTERISTICS.CURRENT_VALUE:
           var val = data.readUInt32LE(0) / 25600.0;
           console.log(color_log_value('CURRENT_VALUE: ' + val));
@@ -53,17 +61,19 @@ export class Characteristic {
           }
           break;
         case CHARACTERISTICS.BUTTON_STATE:
-          var currentButtonState = Number('0x' + data.toString('hex'));
-          console.log(color_log_value('BUTTON_STATE: ' + currentButtonState));
+          var val = !!+Number('0x' + data.toString('hex'));
+          console.log(color_log_value('BUTTON_STATE: ' + val));
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
-            addDocument('buttons', {button: currentButtonState})
+            addDocument('buttons', {button: val})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
         case CHARACTERISTICS.LED_STATE:
           let currentLedValue = Number('0x' + data.toString('hex'));
+          var val = !currentLedValue;
+          console.log(color_log_value('LED_STATE: ' + !currentLedValue));
           let writeLedValue = new Buffer(1);
-          writeLedValue[0] = !currentLedValue;
+          writeLedValue[0] = val;
           this.nobleCharacteristic.write(writeLedValue, false, (err) => {
             if (err) {
               console.log(err);
