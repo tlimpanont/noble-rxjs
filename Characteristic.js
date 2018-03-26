@@ -53,10 +53,10 @@ export class Characteristic {
           }
           break;
         case CHARACTERISTICS.BUTTON_STATE:
-          var val = parseInt('0x' + data.toString('hex'));
-          console.log(color_log_value('BUTTON_STATE: ' + val));
+          var currentButtonState = Number('0x' + data.toString('hex'));
+          console.log(color_log_value('BUTTON_STATE: ' + currentButtonState));
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
-            addDocument('buttons', {button: val})
+            addDocument('buttons', {button: currentButtonState})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
