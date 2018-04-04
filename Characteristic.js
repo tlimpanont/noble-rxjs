@@ -6,8 +6,9 @@ export const CHARACTERISTICS = {
   HEART_RATE_MEASUREMENT: '2a37',
   TEMPERATURE_MEASUREMENT: '2a1c',
   BATTERY_LEVEL: '2a19',
-  SOUND_LEVEL: 'a101',
+  VIBRATION_LEVEL: 'a101',
   CURRENT_VALUE: 'a401',
+  VOLTAGE_VALUE: 'a501',
   BUTTON_STATE: 'a201',
   LED_STATE: 'a301',
 };
@@ -36,11 +37,11 @@ export class Characteristic {
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
-        case CHARACTERISTICS.SOUND_LEVEL:
+        case CHARACTERISTICS.VIBRATION_LEVEL:
           var val = data.readUInt32LE(0) / 25600.0;
-          console.log(color_log_value('SOUND_LEVEL: ' + val));
+          console.log(color_log_value('VIBRATION_LEVEL: ' + val));
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
-            addDocument('sounds', {sound: val})
+            addDocument('vibrations', {vibration: val})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
@@ -49,6 +50,14 @@ export class Characteristic {
           console.log(color_log_value('CURRENT_VALUE: ' + val));
           if (process.env.DB_NAME && process.env.CONNECTION_URL) {
             addDocument('currents', {current: val})
+              .then((result) => console.log(JSON.stringify(result, null, 4)))
+          }
+          break;
+        case CHARACTERISTICS.VOLTAGE_VALUE:
+          var val = data.readUInt32LE(0) / 25600.0;
+          console.log(color_log_value('VOLTAGE_VALUE: ' + val));
+          if (process.env.DB_NAME && process.env.CONNECTION_URL) {
+            addDocument('voltages', {voltage: val})
               .then((result) => console.log(JSON.stringify(result, null, 4)))
           }
           break;
